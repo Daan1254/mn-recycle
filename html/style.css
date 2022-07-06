@@ -166,7 +166,7 @@ body {
 .progressinner {
     height: 100%;
     background-color: var(--buttonBackground);
-    width: 40%;
+    width: 0%;
 }
 
 .right-inner-nextitem {
@@ -185,4 +185,13 @@ body {
     font-size: 1.1rem;
     color: var(--textColor);
     margin-top: 10px;
+}
+
+#current_salary {
+    margin-left: 5px;
+}
+
+#cur_level {
+    margin-left: 5px;
+
 }

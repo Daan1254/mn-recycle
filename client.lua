@@ -2,7 +2,7 @@ ESX = nil
 
 
 insideCentrum = false
-local playerData
+localPlayerData  = nil    
 
 Citizen.CreateThread(function()
     while ESX == nil do
@@ -10,8 +10,8 @@ Citizen.CreateThread(function()
         Citizen.Wait(0)
     end
 
-    ESX.TriggerServerCallback("mn-recycle:sever:checkPlayerData", function(playerData)
-        playerData = playerData
+    ESX.TriggerServerCallback("mn-recycle:server:checkPlayerData", function(playerData)
+        localPlayerData = playerData
     end)
 end)
 
@@ -77,12 +77,20 @@ end)
 
 RegisterNetEvent("mn-recycle:client:dashboard")
 AddEventHandler("mn-recycle:client:dashboard", function()
+    SetNuiFocus(true,true)
+    print(ESX.DumpTable(localPlayerData))
     SendNUIMessage({
         action = 'open',
-        playerData = playerData,
+        playerData = localPlayerData,
         packagesDone = packagespicked,
-        priceperPackage = MN.priceperPackage
+        payoutperPackage = MN.payoutperPackage,
+        levelConfig = MN.LevelSystem
     })
+end)
+
+
+RegisterNUICallback("close", function()
+    SetNuiFocus(false, false)
 end)
 
 spawnObjects = function()
@@ -106,7 +114,7 @@ removeObjects = function()
 end
 
 local rand
-local packagespicked = 0
+packagespicked = 0
 startLoop = function()
     rand = math.random(1, #MN.pickupLocations)
     Citizen.CreateThread(function()
@@ -131,7 +139,7 @@ startLoop = function()
             if not (isHolding) then 
                 DrawMarker(20,x,y,z + 3, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.3, 0.2, 147,112,219, 100, false, true, 2, true, nil, nil, false)
                 if (dist < 2.5) then 
-                    DrawScriptText(vector3(x,y,z), "[~g~E~w~] pakket oppakken")
+                    DrawScriptText(vector3(x,y,z + 1), "[~g~E~w~] pakket oppakken")
 
                     if IsControlJustReleased(0, 38) then 
                         pickupPackage()
@@ -145,7 +153,14 @@ startLoop = function()
                     if IsControlJustReleased(0, 38) then 
                         dropPackage()
                         packagespicked = packagespicked + 1
-                        playerData.totalPickups = playerData.totalPickups + 1
+                        localPlayerData.XP = localPlayerData.XP + MN.XPperPackage
+                        if (MN.LevelSystem[localPlayerData.level + 1]) then
+                            if (localPlayerData.XP >= MN.LevelSystem[localPlayerData.level + 1].XPneededToLevel) then 
+                                localPlayerData.level = localPlayerData.level + 1
+                            end
+                        end
+                        print(ESX.DumpTable(localPlayerData))
+                        localPlayerData.totalPickups = localPlayerData.totalPickups + 1
                     end
                 end
             end
@@ -155,6 +170,16 @@ startLoop = function()
 end
 
 local carryPackage
+
+
+Citizen.CreateThread(function()
+    while true do 
+        Wait(5000)
+        ESX.TriggerServerCallback("mn-recycle:server:syncLocalPlayerdata", function(data)
+            localPlayerData = data
+        end, localPlayerData)
+    end
+end)
 
 
 
@@ -175,6 +200,13 @@ pickupPackage = function()
     carryPackage = object
 end
 
+RegisterNUICallback("yetoch", function()
+    print(packagespicked)
+    ESX.TriggerServerCallback("mn-recycle:server:yetoch", function() 
+    end,packagespicked)
+    packagespicked = 0
+end)
+
 
 dropPackage = function()
     ESX.ShowNotification("~g~Goed gewerkt! ga verder met het volgende pakketje of cash uit bij de laptop!")
@@ -185,6 +217,8 @@ dropPackage = function()
     carryPackage = nil
     isHolding = false
     rand = nil
+    ESX.TriggerServerCallback("mn-recycle:server:yetoch2")
+
 end
 
 

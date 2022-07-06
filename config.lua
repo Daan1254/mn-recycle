@@ -50,5 +50,41 @@ MN = {
     insideLocation = vector4(1072.72,-3102.51,-40.0,82.95),
 
 
-	payoutperPackage = 50
+	payoutperPackage = 50,
+
+	XPperPackage = 100,
+	LevelSystem = {
+		[1] = { -- Level 1 
+			XPneededToLevel = 0, --  Hoeveel XP nodig hebt tot je level up gaat,
+			itemsUnlock = {
+				{
+					itemname = 'bread',
+					count = 2
+				},
+				{
+					itemname = 'water',
+					count = 2
+				}
+			}
+		},
+		[2] = { -- Level 2 
+			XPneededToLevel = 200, -- Hoeveel XP nodig hebt tot je level up gaat,
+			itemsUnlock = {
+				{
+					itemname = 'bread',
+					count = 2
+				},
+				{
+					itemname = 'water',
+					count = 2
+				},
+				{
+					itemname = 'plastic',
+					count = 1,
+					new = true,
+					img = "plastic.png"
+				}
+			}
+		}
+	}
 }

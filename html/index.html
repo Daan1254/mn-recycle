@@ -12,7 +12,7 @@
 <body>
     <div class="container">
         <div class="header">
-            Recycle Centrum MNRP
+            Recycle Centrum Europolis
         </div>
 
         <div class="inner">
@@ -26,10 +26,10 @@
                         <div class="grid-item-left">
                             <i class="fas fa-dollar-sign"></i>
 
-                            Salaris: <span id="current_salary">1549</span>
+                            Salaris:  <span id="current_salary">1549</span>
                         </div>
                         <div class="grid-item-right">
-                            <div class="getmoney-btn">Ophalen</div>
+                            <div class="getmoney-btn" onclick="uitbetalen()">Ophalen</div>
                         </div>
                     </div>
                     <div class="grid-item">
@@ -39,7 +39,7 @@
                             Totaal verdiende bedrag: 
                         </div>
                         <div class="grid-item-right">
-                            <div class="grid-item-right-inner">&euro; 194.200,99</div>
+                            <div class="grid-item-right-inner" id="total_money">&euro; 194.200,99</div>
                            
                         </div>
                     </div>
@@ -50,7 +50,7 @@
                             Totaal opgepakte pakketjes: 
                         </div>
                         <div class="grid-item-right">
-                            <div class="grid-item-right-inner">177</div>
+                            <div class="grid-item-right-inner" id="total_pickups">177</div>
                            
                         </div>
                     </div>
@@ -59,12 +59,12 @@
             <div class="right">
                 <div class="right-header">Progressie</div>
                 <div class="right-inner">
-                    <div class="right-inner-ownlvl">Persoonlijke level: 1</div>
+                    <div class="right-inner-ownlvl">Persoonlijke level: <span id="cur_level">1</span></div>
                     <div class="right-inner-progressValue">40%</div>
                     <div class="right-inner-progressbar"><div class="progressinner"></div></div>
                     <div class="right-inner-nextitem">Volgende item die je unlockt</div>
-                    <img src="./img/plastic.png" alt="">
-                    <div class="right-inner-itemname">Plastic</div>
+                    <img class="next-item" src="./img/plasticcc.png" alt="">
+                    <div class="right-inner-itemname">Gayt</div>
 
                 </div>
             </div>
